@@ -1,9 +1,19 @@
 package com.example.student_management;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,5 +30,46 @@ public class ManageUserActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Gắn Toolbar
+        Toolbar toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        // Thêm tiêu đề
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("User Management");
+        }
+
+        // Gán icon Logout làm navigation icon (bên trái)
+        toolbar.setNavigationIcon(R.drawable.logout_svgrepo_com);
+
+        // Khi bấm icon navigation (Logout)
+        toolbar.setNavigationOnClickListener(v -> showLogoutDialog());
+    }
+
+    private void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Log out")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Exit", (dialog, which) -> {
+                    // Quay về MainActivity
+                    Intent intent = new Intent(ManageUserActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish(); // kết thúc ManageUserActivity
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.manage_user_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }
