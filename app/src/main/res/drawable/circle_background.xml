@@ -1,0 +1,19 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Trạng thái pressed -->
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="#FFD700"/> <!-- vàng khi nhấn -->
+            <stroke android:width="2dp" android:color="#FFA500"/>
+        </shape>
+    </item>
+
+    <!-- Trạng thái mặc định -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF"/> <!-- nền trắng mặc định -->
+            <stroke android:width="2dp" android:color="#F3DA54"/> <!-- viền vàng -->
+        </shape>
+    </item>
+
+</selector>

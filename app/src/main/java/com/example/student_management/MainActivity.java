@@ -87,20 +87,23 @@ public class MainActivity extends AppCompatActivity {
                                                     return;
                                                 }
 
+                                                Intent intent;
                                                 switch (role.toLowerCase()) {
                                                     case "admin":
-                                                        startActivity(new Intent(this, ManageUserActivity.class));
+                                                        intent = new Intent(this, ManageUserActivity.class);
                                                         break;
                                                     case "manager":
                                                     case "employee":
-                                                        startActivity(new Intent(this, ManageStudentActivity.class));
+                                                        intent = new Intent(this, ManageStudentActivity.class);
                                                         break;
                                                     default:
                                                         Toast.makeText(this, "Vai trò không hợp lệ: " + role, Toast.LENGTH_SHORT).show();
-                                                        break;
+                                                        return;
                                                 }
+                                                intent.putExtra("uid", uid);
+                                                startActivity(intent);
+                                                finish();
 
-                                                finish(); // Đóng MainActivity
                                             } else {
                                                 Toast.makeText(this, "Không tìm thấy thông tin người dùng!", Toast.LENGTH_SHORT).show();
                                             }
@@ -125,7 +128,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNextUser() {
         if (currentIndex >= users.length) {
-            Toast.makeText(this, "All test users have been created!", Toast.LENGTH_LONG).show();
+            // Khi tất cả users đã xử lý
+            Toast.makeText(this, "All test users have been created or already exist!", Toast.LENGTH_LONG).show();
+
+            // Optional: hiển thị danh sách email nào đã tồn tại
+            StringBuilder existed = new StringBuilder();
+            for (String[] user : users) {
+                existed.append(user[0]).append("\n");
+            }
+            Toast.makeText(this, "Users: \n" + existed, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -138,29 +149,20 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                        if (firebaseUser == null) return;
-
-                        String uid = firebaseUser.getUid();
-                        saveUserToFirestore(uid, email, name, role);
-
+                        if (firebaseUser != null) {
+                            String uid = firebaseUser.getUid();
+                            saveUserToFirestore(uid, email, name, role);
+                        } else {
+                            currentIndex++;
+                            createNextUser();
+                        }
                     } else {
                         Exception e = task.getException();
                         if (e instanceof FirebaseAuthUserCollisionException) {
-                            // Email already exists → skip this user
-                            Toast.makeText(this,
-                                    "User " + email + " already exists, skipping.",
-                                    Toast.LENGTH_SHORT).show();
-
-                            // Continue with the next user
-                            mAuth.signOut();
+                            // Email đã tồn tại → chỉ log, không show toast nhiều
                             currentIndex++;
                             createNextUser();
                         } else {
-                            Toast.makeText(this,
-                                    "Auth creation failed for " + email + ": " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-
-                            mAuth.signOut();
                             currentIndex++;
                             createNextUser();
                         }
@@ -196,10 +198,7 @@ public class MainActivity extends AppCompatActivity {
                                         .document("init")
                                         .set(new HashMap<>())
                                         .addOnSuccessListener(loginVoid -> {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Created user: " + email + " (" + role + ")",
-                                                    Toast.LENGTH_SHORT).show();
-
+                                            // Không show toast cho từng user
                                             mAuth.signOut();
                                             currentIndex++;
                                             createNextUser();
@@ -207,10 +206,7 @@ public class MainActivity extends AppCompatActivity {
                             });
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this,
-                            "Failed to save user in Firestore: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-
+                    // Không show toast cho từng user
                     mAuth.signOut();
                     currentIndex++;
                     createNextUser();

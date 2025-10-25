@@ -6,7 +6,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide; // from github
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -18,7 +21,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class ManageUserActivity extends AppCompatActivity {
+
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,8 @@ public class ManageUserActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        uid = getIntent().getStringExtra("uid");
 
         // Gắn Toolbar
         Toolbar toolbar = findViewById(R.id.tool_bar);
@@ -65,6 +74,21 @@ public class ManageUserActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.manage_user_menu, menu);
+
+        MenuItem profileItem = menu.findItem(R.id.action_profile);
+        View actionView = profileItem.getActionView();
+        ImageView ivProfileMenu = actionView.findViewById(R.id.iv_profile_menu);
+
+        // Load ảnh từ Firestore
+        loadProfilePicture(uid, ivProfileMenu);
+
+        // Optional: click vào avatar mở ProfileActivity
+        actionView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EditProfileActivity.class);
+            intent.putExtra("uid", uid);
+            startActivity(intent);
+        });
+
         return true;
     }
 
@@ -72,4 +96,28 @@ public class ManageUserActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
+
+    private void loadProfilePicture(String uid, ImageView ivProfile) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("users")
+                .document(uid)
+                .collection("profile")
+                .document("info")
+                .get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        String pictureUrl = document.getString("picture");
+                        if (pictureUrl != null && !pictureUrl.isEmpty()) {
+                            Glide.with(this)
+                                    .load(pictureUrl)
+                                    .placeholder(R.drawable.reshot_icon_user_f3n5jxhbeg)
+                                    .error(R.drawable.reshot_icon_user_f3n5jxhbeg)
+                                    .circleCrop()
+                                    .into(ivProfile);
+                        }
+                    }
+                });
+    }
+
 }
