@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1010488813311",
+    "project_id": "student-info-management-k27",
+    "storage_bucket": "student-info-management-k27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010488813311:android:63aab673d7d53fe80a4eca",
+        "android_client_info": {
+          "package_name": "com.example.student_info_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZEMjbIxDR4C5XuVTGaP2UR3hGlZWkZ6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010488813311:android:31caceebad839e920a4eca",
+        "android_client_info": {
+          "package_name": "com.example.student_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZEMjbIxDR4C5XuVTGaP2UR3hGlZWkZ6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
