@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="user_roles">
+        <item>admin</item>
+        <item>manager</item>
+        <item>employee</item>
+    </string-array>
+    <string-array name="user_status">
+        <item>Normal</item>
+        <item>Locked</item>
+    </string-array>
+</resources>

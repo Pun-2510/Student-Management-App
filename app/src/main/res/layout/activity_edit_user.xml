@@ -6,17 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".AddUserActivity">
+    tools:context=".EditUserActivity">
 
-    <!-- Include Toolbar -->
-    <include
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:titleTextColor="@android:color/white"
+        app:title="Edit User"
+        tools:ignore="MissingConstraints" />
 
-    <!-- Email -->
+    <!-- Gmail -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_email"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -33,6 +35,7 @@
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,6 +57,7 @@
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,14 +163,14 @@
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Create Button -->
+    <!-- Save Button -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_create_user"
+        android:id="@+id/btn_save_change"
         style="@style/Widget.MaterialComponents.Button"
         android:backgroundTint="@drawable/btn_create_user_color"
         android:layout_width="0dp"
         android:layout_height="68dp"
-        android:text="Create User"
+        android:text="Save Change"
         android:textAllCaps="false"
         android:textSize="18sp"
         android:textColor="@android:color/white"

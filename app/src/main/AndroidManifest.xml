@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentManagement">
         <activity
+            android:name=".ViewLoginHistory"
+            android:exported="false" />
+        <activity
+            android:name=".EditUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddUserActivity"
             android:exported="false" />
         <activity

@@ -7,58 +7,39 @@
     android:layout_height="match_parent"
     tools:context=".ManageUserActivity">
 
+    <!-- Toolbar -->
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/tool_bar" />
+        layout="@layout/tool_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_create_user"
-        android:layout_width="180dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="33dp"
-        android:backgroundTint="#88bbf2"
-        android:elevation="4dp"
-        android:text="Create User"
-        android:textColor="@android:color/white"
-        app:cornerRadius="12dp"
-        app:icon="@drawable/reshot_icon_user_f3n5jxhbeg"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/btn_remove_user"
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tool_bar" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_remove_user"
-        android:layout_width="180dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="33dp"
-        android:backgroundTint="#ffcdff"
-        android:elevation="4dp"
-        android:text="Remove"
-        android:textColor="@android:color/white"
-        app:cornerRadius="12dp"
-        app:icon="@drawable/reshot_icon_remove_user_reptvdsl4a"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_create_user"
-        app:layout_constraintTop_toBottomOf="@id/tool_bar" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="452dp"
-        android:layout_height="795dp"
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="68dp"
+        android:contentDescription="Add User"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="#2196F3"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:tint="@android:color/white"
+        tools:ignore="ImageContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

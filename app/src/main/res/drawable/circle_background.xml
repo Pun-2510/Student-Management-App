@@ -1,18 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Trạng thái pressed -->
+    <!-- Khi nhấn (pressed) -->
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="#FFD700"/> <!-- vàng khi nhấn -->
-            <stroke android:width="2dp" android:color="#FFA500"/>
+            <solid android:color="#ffcdff" /> <!-- Nền hồng khi nhấn -->
+            <stroke android:width="2dp" android:color="#ffcdff" /> <!-- Viền hồng -->
         </shape>
     </item>
 
-    <!-- Trạng thái mặc định -->
+    <!-- Mặc định -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="#FFFFFF"/> <!-- nền trắng mặc định -->
-            <stroke android:width="2dp" android:color="#F3DA54"/> <!-- viền vàng -->
+            <solid android:color="#FFFFFF" /> <!-- Nền trắng mặc định -->
+            <stroke android:width="2dp" android:color="#88bbf2" /> <!-- Viền xanh nhạt -->
         </shape>
     </item>
 
