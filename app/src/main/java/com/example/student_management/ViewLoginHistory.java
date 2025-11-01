@@ -43,7 +43,7 @@ public class ViewLoginHistory extends AppCompatActivity {
         // Receive uid
         uid = getIntent().getStringExtra("uid");
         if (uid == null || uid.isEmpty()) {
-            Toast.makeText(this, "Không tìm thấy UID người dùng!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "UID Not Found!", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -87,10 +87,10 @@ public class ViewLoginHistory extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                     if (login_history_list.isEmpty()) {
-                        Toast.makeText(this, "Chưa có lịch sử đăng nhập!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "There aren't any login history available yet!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Lỗi khi tải lịch sử đăng nhập: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        Toast.makeText(this, "Error occurred during fetching data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

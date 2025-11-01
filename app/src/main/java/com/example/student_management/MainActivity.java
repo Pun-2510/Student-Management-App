@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     saveLoginHistory(uid);
 
-                                    Toast.makeText(this, "Đăng nhập thành công: " + role, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "Login successfully: " + role, Toast.LENGTH_SHORT).show();
 
                                     Intent intent;
                                     switch (role.toLowerCase()) {
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                             intent = new Intent(this, ManageStudentActivity.class);
                                             break;
                                         default:
-                                            Toast.makeText(this, "Vai trò không hợp lệ: " + role, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, "Invalid Role: " + role, Toast.LENGTH_SHORT).show();
                                             return;
                                     }
 
@@ -133,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
                                     finish();
                                 })
                                 .addOnFailureListener(e ->
-                                        Toast.makeText(this, "Lỗi khi lấy dữ liệu user: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                        Toast.makeText(this, "Error occurred during fetching data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     } else {
-                        Toast.makeText(this, "Sai email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Wrong email or password, Please try again!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
