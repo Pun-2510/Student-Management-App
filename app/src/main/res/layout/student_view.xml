@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:paddingTop="8dp">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Avatar -->
+        <include
+            android:id="@+id/include_avatar"
+            layout="@layout/menu_profile_item"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp" />
+
+        <!-- Thông tin sinh viên -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <!-- Họ và tên -->
+            <TextView
+                android:id="@+id/txt_fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fullname: #student_name"
+                android:textSize="14sp"
+                android:textColor="#487e9c" />
+
+            <!-- Ngày sinh -->
+            <TextView
+                android:id="@+id/txt_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DOB: #dob"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="6dp" />
+
+            <!-- Giới tính -->
+            <TextView
+                android:id="@+id/txt_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender: #gender"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="6dp" />
+
+            <!-- MSSV + Lớp -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/txt_student_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Student ID: #student_id"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/txt_class_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Class: #class"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <!-- Khoa -->
+            <TextView
+                android:id="@+id/txt_department"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Department: #department"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="6dp" />
+
+            <!-- Intake -->
+            <TextView
+                android:id="@+id/txt_intake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Intake: #intake"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="6dp" />
+
+        </LinearLayout>
+
+        <!-- Icon menu -->
+        <ImageView
+            android:id="@+id/ic_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_menu"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="#2d3345" />
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

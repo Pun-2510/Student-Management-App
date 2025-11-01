@@ -41,10 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
     // Test user list
     private final String[][] users = {
-            {"admin@gmail.com", "123456", "Admin User", "admin"},
-            {"manager@gmail.com", "123456", "Manager User", "manager"},
-            {"pinkhair@gmail.com", "123456", "Momo", "employee"},
-            {"greensky@gmail.com", "123456", "Midori", "employee"},
+            {"admin@gmail.com", "123456", "Admin User", "Admin"},
+            {"manager@gmail.com", "123456", "Manager User", "Manager"},
+            {"pinkhair@gmail.com", "123456", "Momo", "Employee"},
+            {"greensky@gmail.com", "123456", "Midori", "Employee"},
+    };
+
+    private final String[][] students = {
+            {"Sorasaki Hina", "2005-02-19", "Female", "SV2025001", "CTK46A", "Information Technology", "2021 - 2025"},
+            {"Kyouyama Kazusa", "2007-08-05", "Female", "SV2025002", "CTK46B", "Computer Science", "2023 - 2027"},
+            {"Uzawa Reisa", "2007-05-31", "Female", "SV2025003", "CTK46C", "Software Engineering", "2023 - 2027"}
     };
 
     @Override
@@ -74,8 +80,10 @@ public class MainActivity extends AppCompatActivity {
         // Login button
         btn_login.setOnClickListener(v -> handleLogin());
 
-        // Auto-create test users
-        createNextUser();
+        // Auto-create sample of users
+        createSampleUsers();
+        // Auto-create sample of students
+        createSampleStudents();
     }
 
     private void handleLogin() {
@@ -83,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         String password = edt_pass.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please enter all required information!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "⚠️ Please enter all required information!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -95,24 +103,24 @@ public class MainActivity extends AppCompatActivity {
 
                         String uid = user.getUid();
 
-                        firestore.collection("users")
+                        firestore.collection("user")
                                 .document(uid)
                                 .get()
                                 .addOnSuccessListener(document -> {
                                     if (!document.exists()) {
-                                        Toast.makeText(this, "User info not found!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, "⚠️ User info not found!", Toast.LENGTH_SHORT).show();
                                         return;
                                     }
 
                                     String role = document.getString("role");
                                     if (role == null) {
-                                        Toast.makeText(this, "Role not found!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, "⚠️ Role not found!", Toast.LENGTH_SHORT).show();
                                         return;
                                     }
 
                                     saveLoginHistory(uid);
 
-                                    Toast.makeText(this, "Login successfully: " + role, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "✅ Login successfully: " + role, Toast.LENGTH_SHORT).show();
 
                                     Intent intent;
                                     switch (role.toLowerCase()) {
@@ -124,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                             intent = new Intent(this, ManageStudentActivity.class);
                                             break;
                                         default:
-                                            Toast.makeText(this, "Invalid Role: " + role, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, "⚠️ Invalid Role: " + role, Toast.LENGTH_SHORT).show();
                                             return;
                                     }
 
@@ -133,16 +141,16 @@ public class MainActivity extends AppCompatActivity {
                                     finish();
                                 })
                                 .addOnFailureListener(e ->
-                                        Toast.makeText(this, "Error occurred during fetching data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                        Toast.makeText(this, "⚠️ Error occurred during fetching data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     } else {
-                        Toast.makeText(this, "Wrong email or password, Please try again!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "⚠️ Wrong email or password, Please try again!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void createNextUser() {
+    private void createSampleUsers() {
         if (currentIndex >= users.length) {
-            Toast.makeText(this, "All test users have been created or already exist!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "✅ All test users have been created or already exist!", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -159,16 +167,16 @@ public class MainActivity extends AppCompatActivity {
                             saveUserToFirestore(firebaseUser.getUid(), email, name, role);
                         } else {
                             currentIndex++;
-                            createNextUser();
+                            createSampleUsers();
                         }
                     } else {
                         Exception e = task.getException();
                         if (e instanceof FirebaseAuthUserCollisionException) {
                             currentIndex++;
-                            createNextUser();
+                            createSampleUsers();
                         } else {
                             currentIndex++;
-                            createNextUser();
+                            createSampleUsers();
                         }
                     }
                 });
@@ -180,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         userDoc.put("role", role);
         userDoc.put("status", "Normal");
 
-        firestore.collection("users").document(uid)
+        firestore.collection("user").document(uid)
                 .set(userDoc)
                 .addOnSuccessListener(aVoid -> {
                     Map<String, Object> profile = new HashMap<>();
@@ -189,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     profile.put("phone_number", String.format(vnLocale, "09%08d", random.nextInt(100000000)));
                     profile.put("picture", "");
 
-                    firestore.collection("users")
+                    firestore.collection("user")
                             .document(uid)
                             .collection("profile")
                             .document("info")
@@ -197,13 +205,13 @@ public class MainActivity extends AppCompatActivity {
                             .addOnSuccessListener(profileVoid -> {
                                 mAuth.signOut();
                                 currentIndex++;
-                                createNextUser();
+                                createSampleUsers();
                             });
                 })
                 .addOnFailureListener(e -> {
                     mAuth.signOut();
                     currentIndex++;
-                    createNextUser();
+                    createSampleUsers();
                 });
     }
 
@@ -216,10 +224,93 @@ public class MainActivity extends AppCompatActivity {
         log.put("device", android.os.Build.MODEL);
         log.put("system", "Android " + android.os.Build.VERSION.RELEASE);
 
-        firestore.collection("users")
+        firestore.collection("user")
                 .document(uid)
                 .collection("login_history")
                 .document(String.valueOf(System.currentTimeMillis()))
                 .set(log);
+    }
+
+    private void createSampleStudents() {
+        final int totalStudents = students.length;
+        final int[] completed = {0}; // Counter for completed insertions
+
+        for (String[] data : students) {
+            Map<String, Object> student = new HashMap<>();
+            student.put("fullname", data[0]);
+            student.put("dob", data[1]);
+            student.put("gender", data[2]);
+            student.put("student_id", data[3]);
+            student.put("class", data[4]);
+            student.put("department", data[5]);
+            student.put("intake", data[6]);
+
+            String studentId = data[3];
+
+            firestore.collection("student")
+                    .document(studentId)
+                    .set(student)
+                    .addOnSuccessListener(aVoid -> {
+                        // Create certificates
+                        Map<String, Object> certificate1 = new HashMap<>();
+                        certificate1.put("certificate_name", "IELTS");
+                        certificate1.put("issued_by", "British Council");
+                        certificate1.put("issue_date", "2023-08-15");
+                        double[] ieltsScores = {6.0, 6.5, 7.0, 7.5, 8.0};
+                        certificate1.put("score", ieltsScores[random.nextInt(ieltsScores.length)]);
+                        certificate1.put("expiry_date", "2025-08-15");
+
+                        Map<String, Object> certificate2 = new HashMap<>();
+                        certificate2.put("certificate_name", "TOEIC");
+                        certificate2.put("issued_by", "ETS");
+                        certificate2.put("issue_date", "2024-01-05");
+                        certificate2.put("score", 700 + random.nextInt(251));
+                        certificate2.put("expiry_date", "Forever");
+
+                        firestore.collection("student")
+                                .document(studentId)
+                                .collection("certificate")
+                                .document("cert1")
+                                .set(certificate1)
+                                .addOnSuccessListener(v -> firestore.collection("student")
+                                        .document(studentId)
+                                        .collection("certificate")
+                                        .document("cert2")
+                                        .set(certificate2)
+                                        .addOnSuccessListener(v2 -> {
+                                            completed[0]++;
+                                            if (completed[0] == totalStudents) {
+                                                Toast.makeText(this,
+                                                        "✅ Sample data created successfully for " + totalStudents + " students!",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            completed[0]++;
+                                            if (completed[0] == totalStudents) {
+                                                Toast.makeText(this,
+                                                        "⚠️ Completed with some errors!",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                )
+                                .addOnFailureListener(e -> {
+                                    completed[0]++;
+                                    if (completed[0] == totalStudents) {
+                                        Toast.makeText(this,
+                                                "⚠️ Completed with some errors!",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        completed[0]++;
+                        if (completed[0] == totalStudents) {
+                            Toast.makeText(this,
+                                    "⚠️ Completed with some errors!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
     }
 }
