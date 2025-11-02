@@ -81,6 +81,7 @@ public class ManageStudentActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Setup ToolBar
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Manage Students");
@@ -101,7 +102,9 @@ public class ManageStudentActivity extends AppCompatActivity {
         adapter = new StudentAdapter(this, filteredList, new StudentAdapter.OnStudentMenuClickListener() {
             @Override
             public void onEdit(Student student) {
-
+                Intent intent = new Intent(ManageStudentActivity.this, EditStudentActivity.class);
+                intent.putExtra("student_data", student);
+                startActivity(intent);
             }
 
             @Override

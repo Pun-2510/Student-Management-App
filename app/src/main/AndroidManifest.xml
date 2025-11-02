@@ -24,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentManagement">
         <activity
+            android:name=".EditStudentActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddStudentActivity"
             android:exported="false" />
         <activity

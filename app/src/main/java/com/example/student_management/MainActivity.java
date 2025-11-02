@@ -236,64 +236,86 @@ public class MainActivity extends AppCompatActivity {
         final int[] completed = {0}; // Counter for completed insertions
 
         for (String[] data : students) {
-            Map<String, Object> student = new HashMap<>();
-            student.put("fullname", data[0]);
-            student.put("dob", data[1]);
-            student.put("gender", data[2]);
-            student.put("student_id", data[3]);
-            student.put("class", data[4]);
-            student.put("department", data[5]);
-            student.put("intake", data[6]);
-
-            String studentId = data[3];
+            String studentId = data[3]; // student_id
 
             firestore.collection("student")
                     .document(studentId)
-                    .set(student)
-                    .addOnSuccessListener(aVoid -> {
-                        // Create certificates
-                        Map<String, Object> certificate1 = new HashMap<>();
-                        certificate1.put("certificate_name", "IELTS");
-                        certificate1.put("issued_by", "British Council");
-                        certificate1.put("issue_date", "2023-08-15");
-                        double[] ieltsScores = {6.0, 6.5, 7.0, 7.5, 8.0};
-                        certificate1.put("score", ieltsScores[random.nextInt(ieltsScores.length)]);
-                        certificate1.put("expiry_date", "2025-08-15");
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            completed[0]++;
+                            if (completed[0] == totalStudents) {
+                                Toast.makeText(this,
+                                        "✅ Sample data checked successfully!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            return;
+                        }
 
-                        Map<String, Object> certificate2 = new HashMap<>();
-                        certificate2.put("certificate_name", "TOEIC");
-                        certificate2.put("issued_by", "ETS");
-                        certificate2.put("issue_date", "2024-01-05");
-                        certificate2.put("score", 700 + random.nextInt(251));
-                        certificate2.put("expiry_date", "Forever");
+                        Map<String, Object> student = new HashMap<>();
+                        student.put("fullname", data[0]);
+                        student.put("dob", data[1]);
+                        student.put("gender", data[2]);
+                        student.put("student_id", data[3]);
+                        student.put("class", data[4]);
+                        student.put("department", data[5]);
+                        student.put("intake", data[6]);
 
                         firestore.collection("student")
                                 .document(studentId)
-                                .collection("certificate")
-                                .document("cert1")
-                                .set(certificate1)
-                                .addOnSuccessListener(v -> firestore.collection("student")
-                                        .document(studentId)
-                                        .collection("certificate")
-                                        .document("cert2")
-                                        .set(certificate2)
-                                        .addOnSuccessListener(v2 -> {
-                                            completed[0]++;
-                                            if (completed[0] == totalStudents) {
-                                                Toast.makeText(this,
-                                                        "✅ Sample data created successfully for " + totalStudents + " students!",
-                                                        Toast.LENGTH_LONG).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            completed[0]++;
-                                            if (completed[0] == totalStudents) {
-                                                Toast.makeText(this,
-                                                        "⚠️ Completed with some errors!",
-                                                        Toast.LENGTH_LONG).show();
-                                            }
-                                        })
-                                )
+                                .set(student)
+                                .addOnSuccessListener(aVoid -> {
+                                    Map<String, Object> certificate1 = new HashMap<>();
+                                    certificate1.put("certificate_name", "IELTS");
+                                    certificate1.put("issued_by", "British Council");
+                                    certificate1.put("issue_date", "2023-08-15");
+                                    double[] ieltsScores = {6.0, 6.5, 7.0, 7.5, 8.0};
+                                    certificate1.put("score", ieltsScores[random.nextInt(ieltsScores.length)]);
+                                    certificate1.put("expiry_date", "2025-08-15");
+
+                                    Map<String, Object> certificate2 = new HashMap<>();
+                                    certificate2.put("certificate_name", "TOEIC");
+                                    certificate2.put("issued_by", "ETS");
+                                    certificate2.put("issue_date", "2024-01-05");
+                                    certificate2.put("score", 700 + random.nextInt(251));
+                                    certificate2.put("expiry_date", "Forever");
+
+                                    firestore.collection("student")
+                                            .document(studentId)
+                                            .collection("certificate")
+                                            .document("cert1")
+                                            .set(certificate1)
+                                            .addOnSuccessListener(v -> firestore.collection("student")
+                                                    .document(studentId)
+                                                    .collection("certificate")
+                                                    .document("cert2")
+                                                    .set(certificate2)
+                                                    .addOnSuccessListener(v2 -> {
+                                                        completed[0]++;
+                                                        if (completed[0] == totalStudents) {
+                                                            Toast.makeText(this,
+                                                                    "✅ Sample data created successfully for " + totalStudents + " students!",
+                                                                    Toast.LENGTH_LONG).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        completed[0]++;
+                                                        if (completed[0] == totalStudents) {
+                                                            Toast.makeText(this,
+                                                                    "⚠️ Completed with some errors!",
+                                                                    Toast.LENGTH_LONG).show();
+                                                        }
+                                                    })
+                                            )
+                                            .addOnFailureListener(e -> {
+                                                completed[0]++;
+                                                if (completed[0] == totalStudents) {
+                                                    Toast.makeText(this,
+                                                            "⚠️ Completed with some errors!",
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                })
                                 .addOnFailureListener(e -> {
                                     completed[0]++;
                                     if (completed[0] == totalStudents) {

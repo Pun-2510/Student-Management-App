@@ -2,7 +2,9 @@ package com.example.student_management;
 
 import com.google.firebase.firestore.PropertyName;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     String fullname;
     String dob;
     String student_id;
