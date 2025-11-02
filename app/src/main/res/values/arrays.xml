@@ -5,8 +5,32 @@
         <item>Manager</item>
         <item>Employee</item>
     </string-array>
+
     <string-array name="user_status">
         <item>Normal</item>
         <item>Locked</item>
+    </string-array>
+
+    <!-- Gender options -->
+    <string-array name="genders">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Department options -->
+    <string-array name="departments">
+        <item>Information Technology</item>
+        <item>Business Administration</item>
+        <item>Graphic Design</item>
+        <item>Marketing</item>
+        <item>Finance</item>
+    </string-array>
+
+    <!-- Intake options -->
+    <string-array name="intakes">
+        <item>2021 - 2025</item>
+        <item>2023 - 2027</item>
+        <item>2024 - 2028</item>
     </string-array>
 </resources>

@@ -139,7 +139,7 @@ public class ManageUserActivity extends AppCompatActivity {
     }
 
     private void loadUsers() {
-        firestore.collection("users").get().addOnSuccessListener(query -> {
+        firestore.collection("user").get().addOnSuccessListener(query -> {
             users.clear();
             AtomicInteger loadedCount = new AtomicInteger(0);
             int totalDocs = query.size();
@@ -150,7 +150,7 @@ public class ManageUserActivity extends AppCompatActivity {
                 String role = doc.getString("role");
                 String status = doc.getString("status");
 
-                DocumentReference profileRef = firestore.collection("users")
+                DocumentReference profileRef = firestore.collection("user")
                         .document(userId)
                         .collection("profile")
                         .document("info");
@@ -187,7 +187,7 @@ public class ManageUserActivity extends AppCompatActivity {
     }
 
     private void loadProfilePicture(String uid, ImageView ivProfile) {
-        firestore.collection("users").document(uid)
+        firestore.collection("user").document(uid)
                 .collection("profile").document("info")
                 .get()
                 .addOnSuccessListener(document -> {

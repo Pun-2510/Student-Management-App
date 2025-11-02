@@ -54,8 +54,8 @@ public class AddUserActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         // 🔹 Firebase setup
-        mAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+        firestore = FirebaseHelper.getFirestore();
+        mAuth = FirebaseHelper.getAuth();
 
         // 🔹 Ánh xạ View
         edtEmail = findViewById(R.id.edt_email);

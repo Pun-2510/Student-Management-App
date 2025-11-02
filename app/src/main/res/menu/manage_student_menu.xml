@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/ic_import"
+        android:title="Import"
+        android:icon="@drawable/ic_import"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ic_export"
+        android:title="Export"
+        android:icon="@drawable/ic_export"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ic_setting"
+        android:title="Filter"
+        android:icon="@drawable/ic_setting"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ic_add_student"
+        android:title="Add Student"
+        android:icon="@drawable/ic_add_student"
+        app:showAsAction="always"/>
+</menu>

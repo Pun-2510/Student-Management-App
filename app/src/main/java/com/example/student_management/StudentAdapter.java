@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.PopupMenu;
 
 import java.util.List;
 
@@ -17,9 +18,19 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentRecyclerView> {
     private final Context context;
     private final List<Student> studentList;
 
-    public StudentAdapter(Context context, List<Student> studentList) {
+    private final OnStudentMenuClickListener listener;
+
+    public interface OnStudentMenuClickListener {
+        void onEdit(Student student);
+        void onDelete(Student student);
+        void onViewDetail(Student student);
+        void onViewCertificate(Student student);
+    }
+
+    public StudentAdapter(Context context, List<Student> studentList, OnStudentMenuClickListener listener) {
         this.context = context;
         this.studentList = studentList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -55,12 +66,30 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentRecyclerView> {
                 HtmlCompat.fromHtml("Intake: " + student.getIntake(), HtmlCompat.FROM_HTML_MODE_LEGACY)
         );
 
-        holder.ic_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        holder.ic_menu.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(context, holder.ic_menu);
+            popup.inflate(R.menu.student_popup_menu);
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.menu_edit) {
+                    if(listener != null) listener.onEdit(student);
+                    return true;
+                } else if (id == R.id.menu_delete) {
+                    if(listener != null) listener.onDelete(student);
+                    return true;
+                } else if (id == R.id.menu_view_detail) {
+                    if(listener != null) listener.onViewDetail(student);
+                    return true;
+                } else if (id == R.id.menu_view_certificate) {
+                    if(listener != null) listener.onViewCertificate(student);
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            popup.show();
         });
+
     }
 
     @Override

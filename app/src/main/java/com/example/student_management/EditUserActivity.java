@@ -53,7 +53,7 @@ public class EditUserActivity extends AppCompatActivity {
         });
 
         // Firebase
-        firestore = FirebaseFirestore.getInstance();
+        firestore = FirebaseHelper.getFirestore();
         uid = getIntent().getStringExtra("uid");
         if (uid == null || uid.isEmpty()) {
             Toast.makeText(this, "User Not Found!", Toast.LENGTH_SHORT).show();

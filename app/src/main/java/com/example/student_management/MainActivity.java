@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private final String[][] students = {
-            {"Sorasaki Hina", "2005-02-19", "Female", "SV2025001", "CTK46A", "Information Technology", "2021 - 2025"},
-            {"Kyouyama Kazusa", "2007-08-05", "Female", "SV2025002", "CTK46B", "Computer Science", "2023 - 2027"},
+            {"Sorasaki Hina", "2005-02-19", "Female", "SV2025001", "CTK46A", "Business Administration", "2021 - 2025"},
+            {"Kyouyama Kazusa", "2007-08-05", "Female", "SV2025002", "CTK46B", "Graphic Design", "2023 - 2027"},
             {"Uzawa Reisa", "2007-05-31", "Female", "SV2025003", "CTK46C", "Software Engineering", "2023 - 2027"}
     };
 
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Initialize Firestore + Auth
-        firestore = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseHelper.getFirestore();
+        mAuth = FirebaseHelper.getAuth();
 
         // Initialize UI
         edt_gmail = findViewById(R.id.edt_gmail);
