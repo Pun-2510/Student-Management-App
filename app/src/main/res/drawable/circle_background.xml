@@ -4,8 +4,9 @@
     <!-- Khi nhấn (pressed) -->
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="#ffcdff" /> <!-- Nền hồng khi nhấn -->
-            <stroke android:width="2dp" android:color="#ffcdff" /> <!-- Viền hồng -->
+            <!-- Nền tối trong suốt -->
+            <solid android:color="#33000000" /> <!-- Đen trong suốt (20%) -->
+            <stroke android:width="2dp" android:color="#88bbf2" /> <!-- Viền xanh nhạt -->
         </shape>
     </item>
 

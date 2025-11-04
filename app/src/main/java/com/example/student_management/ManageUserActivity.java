@@ -126,6 +126,7 @@ public class ManageUserActivity extends AppCompatActivity {
         fab_add_user.setOnClickListener(v -> {
             Intent intent = new Intent(ManageUserActivity.this, AddUserActivity.class);
             intent.putExtra("uid", uid);
+            intent.putExtra("caller", "ManageUserActivity");
             startActivity(intent);
         });
 

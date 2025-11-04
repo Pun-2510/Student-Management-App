@@ -23,12 +23,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class EditProfileActivity extends AppCompatActivity {
-
+    private FirebaseFirestore firestore;
     private static final int PICK_IMAGE_REQUEST = 101;
     private Toolbar tool_bar;
     private ImageView ivProfile;
     private Uri selectedImageUri;
     private String uid;
+    private String caller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,13 @@ public class EditProfileActivity extends AppCompatActivity {
             return insets;
         });
 
+        firestore = FirebaseHelper.getFirestore();
+
+        uid = getIntent().getStringExtra("uid");
+        caller = getIntent().getStringExtra("caller");
+        ivProfile = findViewById(R.id.iv_profile);
+        MaterialButton btnChange = findViewById(R.id.btn_change_photo);
+
         tool_bar = findViewById(R.id.tool_bar);
         setSupportActionBar(tool_bar);
         if (getSupportActionBar() != null) {
@@ -51,22 +59,21 @@ public class EditProfileActivity extends AppCompatActivity {
 
         tool_bar.setNavigationIcon(R.drawable.logout_svgrepo_com);
         tool_bar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(EditProfileActivity.this, ManageUserActivity.class);
+            Intent intent;
+            if ("ManageStudentActivity".equals(caller)) {
+                intent = new Intent(EditProfileActivity.this, ManageStudentActivity.class);
+            } else {
+                intent = new Intent(EditProfileActivity.this, ManageUserActivity.class);
+            }
             intent.putExtra("uid", uid);
             startActivity(intent);
             finish();
         });
 
-        uid = getIntent().getStringExtra("uid");
-        ivProfile = findViewById(R.id.iv_profile);
-        MaterialButton btnChange = findViewById(R.id.btn_change_photo);
-
-        FirebaseApp.initializeApp(this);
-
-        // 🔹 Load ảnh hiện tại
+        // Fetching current image from firestore
         loadProfilePicture(uid, ivProfile);
 
-        // 🔹 Nút chọn ảnh mới
+        // Handle btnChange triggering event
         btnChange.setOnClickListener(v -> openImagePicker());
     }
 

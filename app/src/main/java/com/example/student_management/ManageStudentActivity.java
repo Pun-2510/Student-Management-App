@@ -2,6 +2,7 @@ package com.example.student_management;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ComponentCaller;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,15 +19,18 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
@@ -38,6 +42,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,6 +59,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageStudentActivity extends AppCompatActivity {
+    private ImageView ivProfileMenu;
+    private String uid;
+
     private RecyclerView recycler_view;
     private StudentAdapter adapter;
     private List<Student> studentList, filteredList;
@@ -80,6 +88,13 @@ public class ManageStudentActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        uid = getIntent().getStringExtra("uid");
+        if (uid == null || uid.isEmpty()) {
+            Toast.makeText(this, "UID not found!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         // Setup ToolBar
         Toolbar toolbar = findViewById(R.id.tool_bar);
@@ -167,6 +182,14 @@ public class ManageStudentActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data, @NonNull ComponentCaller caller) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200 && resultCode == RESULT_OK) {
+            loadProfilePicture(uid, ivProfileMenu);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.manage_student_menu, menu);
 
@@ -178,6 +201,22 @@ public class ManageStudentActivity extends AppCompatActivity {
             s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
             menuItem.setTitle(s);
         }
+
+        // Lấy action view của item profile
+        MenuItem profileItem = menu.findItem(R.id.action_profile);
+        View actionView = profileItem.getActionView();
+        ivProfileMenu = actionView.findViewById(R.id.iv_profile_menu);
+
+        // Load ảnh profile
+        loadProfilePicture(uid, ivProfileMenu);
+
+        // Xử lý sự kiện click vào icon profile
+        actionView.setOnClickListener(v -> {
+            Intent intent = new Intent(ManageStudentActivity.this, EditProfileActivity.class);
+            intent.putExtra("uid", uid);
+            intent.putExtra("caller", "ManageStudentActivity");
+            startActivity(intent);
+        });
 
         return true;
     }
@@ -191,7 +230,7 @@ public class ManageStudentActivity extends AppCompatActivity {
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             return true;
         }
-        if (item.getItemId() == R.id.ic_add_student) {
+        else if (item.getItemId() == R.id.ic_add_student) {
             Intent intent = new Intent(this, AddStudentActivity.class);
             startActivity(intent);
             return true;
@@ -209,6 +248,27 @@ public class ManageStudentActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadProfilePicture(String uid, ImageView ivProfile) {
+        firestore.collection("user").document(uid)
+                .collection("profile").document("info")
+                .get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        String pictureUrl = document.getString("picture");
+                        if (pictureUrl != null && !pictureUrl.isEmpty()) {
+                            Glide.with(this)
+                                    .load(pictureUrl)
+                                    .placeholder(R.drawable.reshot_icon_user_f3n5jxhbeg)
+                                    .error(R.drawable.reshot_icon_user_f3n5jxhbeg)
+                                    .circleCrop()
+                                    .into(ivProfile);
+                        } else {
+                            ivProfile.setImageResource(R.drawable.reshot_icon_user_f3n5jxhbeg);
+                        }
+                    }
+                });
     }
 
     private void showFilterDialog() {
