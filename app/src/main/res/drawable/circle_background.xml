@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#33000000"> <!-- Hiệu ứng nhấn tối nhẹ -->
 
-    <!-- Khi nhấn (pressed) -->
-    <item android:state_pressed="true">
-        <shape android:shape="oval">
-            <!-- Nền tối trong suốt -->
-            <solid android:color="#33000000" /> <!-- Đen trong suốt (20%) -->
-            <stroke android:width="2dp" android:color="#88bbf2" /> <!-- Viền xanh nhạt -->
-        </shape>
-    </item>
-
-    <!-- Mặc định -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="#FFFFFF" /> <!-- Nền trắng mặc định -->
+            <solid android:color="#FFFFFF" /> <!-- Nền trắng -->
             <stroke android:width="2dp" android:color="#88bbf2" /> <!-- Viền xanh nhạt -->
         </shape>
     </item>
-
-</selector>
+</ripple>

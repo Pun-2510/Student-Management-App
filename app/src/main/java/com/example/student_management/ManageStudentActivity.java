@@ -61,7 +61,6 @@ import java.util.List;
 public class ManageStudentActivity extends AppCompatActivity {
     private ImageView ivProfileMenu;
     private String uid;
-
     private RecyclerView recycler_view;
     private StudentAdapter adapter;
     private List<Student> studentList, filteredList;
@@ -150,11 +149,6 @@ public class ManageStudentActivity extends AppCompatActivity {
 
             @Override
             public void onViewDetail(Student student) {
-
-            }
-
-            @Override
-            public void onViewCertificate(Student student) {
 
             }
         });

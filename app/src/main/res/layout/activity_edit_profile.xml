@@ -7,42 +7,46 @@
     android:layout_height="match_parent"
     tools:context=".EditProfileActivity">
 
+    <!-- Thanh công cụ -->
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"/>
+        layout="@layout/tool_bar" />
 
-    <ImageView
+    <!-- Ảnh hồ sơ hình tròn -->
+
+    <!-- Nút thay ảnh -->
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_profile"
-        android:layout_width="380dp"
-        android:layout_height="380dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="187dp"
-        android:layout_marginEnd="34dp"
-        android:background="@drawable/circle_background"
-        android:padding="4dp"
+        android:layout_width="420dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="140dp"
+        android:padding="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/reshot_icon_user_f3n5jxhbeg"
-        app:layout_constraintBottom_toTopOf="@+id/btn_change_photo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tool_bar"
+        app:rippleColor="#33000000"
+        app:shapeAppearanceOverlay="@style/CircleImageView"
+        app:strokeColor="#88bbf2"
+        app:strokeWidth="5dp"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_change_photo"
-        android:layout_width="200dp"
-        android:layout_height="69dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="124dp"
-        android:layout_marginBottom="319dp"
+        android:layout_width="220dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="114dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="114dp"
+        android:layout_marginBottom="243dp"
         android:backgroundTint="#88bbf2"
         android:text="Change Photo"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:cornerRadius="16dp"
+        android:textSize="18sp"
+        app:cornerRadius="18dp"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"

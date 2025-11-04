@@ -24,7 +24,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentRecyclerView> {
         void onEdit(Student student);
         void onDelete(Student student);
         void onViewDetail(Student student);
-        void onViewCertificate(Student student);
     }
 
     public StudentAdapter(Context context, List<Student> studentList, OnStudentMenuClickListener listener) {
@@ -80,10 +79,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentRecyclerView> {
                 } else if (id == R.id.menu_view_detail) {
                     if(listener != null) listener.onViewDetail(student);
                     return true;
-                } else if (id == R.id.menu_view_certificate) {
-                    if(listener != null) listener.onViewCertificate(student);
-                    return true;
-                } else {
+                }
+                else {
                     return false;
                 }
             });
