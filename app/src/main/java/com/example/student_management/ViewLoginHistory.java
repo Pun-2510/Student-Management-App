@@ -71,7 +71,7 @@ public class ViewLoginHistory extends AppCompatActivity {
     }
 
     private void loadLoginHistory() {
-        firestore.collection("users")
+        firestore.collection("user")
                 .document(uid)
                 .collection("login_history")
                 .get()

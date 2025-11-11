@@ -6,6 +6,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,6 +18,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentIndex = 0;
 
     // Test user list
-    private final String[][] users = {
+    private final String[][] user = {
             {"admin@gmail.com", "123456", "Admin User", "Admin"},
             {"manager@gmail.com", "123456", "Manager User", "Manager"},
             {"pinkhair@gmail.com", "123456", "Momo", "Employee"},
@@ -68,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         firestore = FirebaseHelper.getFirestore();
         mAuth = FirebaseHelper.getAuth();
 
+        // Check Firebase connection status
+        //checkFirebaseConnection();
+
         // Initialize UI
         edt_gmail = findViewById(R.id.edt_gmail);
         edt_pass = findViewById(R.id.edt_pass);
@@ -85,6 +94,26 @@ public class MainActivity extends AppCompatActivity {
         // Auto-create sample of students
         createSampleStudents();
     }
+
+//    private void checkFirebaseConnection() {
+//        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+//        connectedRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Boolean connected = snapshot.getValue(Boolean.class);
+//                if (connected != null && connected) {
+//                    Toast.makeText(MainActivity.this, "✅ Connected to Firebase", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(MainActivity.this, "❌ Disconnected from Firebase", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(MainActivity.this, "⚠️ Connection listener was cancelled", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void handleLogin() {
         String email = edt_gmail.getText().toString().trim();
@@ -149,15 +178,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createSampleUsers() {
-        if (currentIndex >= users.length) {
+        if (currentIndex >= user.length) {
             Toast.makeText(this, "✅ All test users have been created or already exist!", Toast.LENGTH_LONG).show();
             return;
         }
 
-        String email = users[currentIndex][0];
-        String password = users[currentIndex][1];
-        String name = users[currentIndex][2];
-        String role = users[currentIndex][3];
+        String email = user[currentIndex][0];
+        String password = user[currentIndex][1];
+        String name = user[currentIndex][2];
+        String role = user[currentIndex][3];
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
@@ -203,13 +232,11 @@ public class MainActivity extends AppCompatActivity {
                             .document("info")
                             .set(profile)
                             .addOnSuccessListener(profileVoid -> {
-                                mAuth.signOut();
                                 currentIndex++;
                                 createSampleUsers();
                             });
                 })
                 .addOnFailureListener(e -> {
-                    mAuth.signOut();
                     currentIndex++;
                     createSampleUsers();
                 });

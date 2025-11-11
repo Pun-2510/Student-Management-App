@@ -114,7 +114,7 @@ public class EditUserActivity extends AppCompatActivity {
 
     private void loadUserData() {
         // Lấy dữ liệu từ /users/{uid}
-        firestore.collection("users")
+        firestore.collection("user")
                 .document(uid)
                 .get()
                 .addOnSuccessListener(document -> {
@@ -130,7 +130,7 @@ public class EditUserActivity extends AppCompatActivity {
                         Toast.makeText(this, "Lỗi khi tải user: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 
         // Lấy dữ liệu từ /users/{uid}/profile/info
-        firestore.collection("users")
+        firestore.collection("user")
                 .document(uid)
                 .collection("profile")
                 .document("info")
@@ -164,7 +164,7 @@ public class EditUserActivity extends AppCompatActivity {
         userUpdate.put("role", role);
         userUpdate.put("status", status);
 
-        firestore.collection("users")
+        firestore.collection("user")
                 .document(uid)
                 .update(userUpdate)
                 .addOnSuccessListener(aVoid -> {
@@ -174,7 +174,7 @@ public class EditUserActivity extends AppCompatActivity {
                     profileUpdate.put("phone_number", phone);
                     profileUpdate.put("age", age);
 
-                    firestore.collection("users")
+                    firestore.collection("user")
                             .document(uid)
                             .collection("profile")
                             .document("info")

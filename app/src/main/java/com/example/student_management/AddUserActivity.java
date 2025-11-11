@@ -127,7 +127,7 @@ public class AddUserActivity extends AppCompatActivity {
         userDoc.put("role", role);
         userDoc.put("status", status);
 
-        firestore.collection("users").document(uid)
+        firestore.collection("user").document(uid)
                 .set(userDoc)
                 .addOnSuccessListener(aVoid -> {
                     Map<String, Object> profile = new HashMap<>();
@@ -136,13 +136,13 @@ public class AddUserActivity extends AppCompatActivity {
                     profile.put("age", age);
                     profile.put("picture", "");
 
-                    firestore.collection("users")
+                    firestore.collection("user")
                             .document(uid)
                             .collection("profile")
                             .document("info")
                             .set(profile)
                             .addOnSuccessListener(done -> {
-                                firestore.collection("users")
+                                firestore.collection("user")
                                         .document(uid)
                                         .collection("login_history")
                                         .document("init")

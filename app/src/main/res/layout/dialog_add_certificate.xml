@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edt_cert_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Certificate Name"/>
+
+    <EditText
+        android:id="@+id/edt_issued_by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Issued By"/>
+
+    <EditText
+        android:id="@+id/edt_issue_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Issue Date (YYYY-MM-DD)"
+        android:focusable="false" />
+
+    <EditText
+        android:id="@+id/edt_expiry_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Expiry Date (YYYY-MM-DD)"
+        android:focusable="false" />
+
+    <EditText
+        android:id="@+id/edt_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Score"/>
+
+    <Button
+        android:id="@+id/btn_add_certificate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Add"/>
+
+</LinearLayout>

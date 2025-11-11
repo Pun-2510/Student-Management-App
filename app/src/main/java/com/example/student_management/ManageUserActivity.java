@@ -38,7 +38,7 @@ public class ManageUserActivity extends AppCompatActivity {
     FloatingActionButton fab_add_user;
     private RecyclerView rvUsers;
     private UserAdapter adapter;
-    private List<User> users = new ArrayList<>();
+    private List<User> userList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +65,11 @@ public class ManageUserActivity extends AppCompatActivity {
         // RecyclerView setup
         rvUsers = findViewById(R.id.recyclerView);
         rvUsers.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserAdapter(this, users, new UserAdapter.OnUserActionListener() {
+        adapter = new UserAdapter(this, userList, new UserAdapter.OnUserActionListener() {
             @Override
             public void onStatusChange(User user, boolean isChecked) {
                 String newStatus = isChecked ? "Normal" : "Locked";
-                firestore.collection("users")
+                firestore.collection("user")
                         .document(user.getUid())
                         .update("status", newStatus)
                         .addOnSuccessListener(aVoid -> {
@@ -95,10 +95,10 @@ public class ManageUserActivity extends AppCompatActivity {
                                 .setTitle("Confirm delete")
                                 .setMessage("Delete user " + user.getFullname() + "?")
                                 .setPositiveButton("Delete", (d, w) -> {
-                                    firestore.collection("users").document(user.getUid())
+                                    firestore.collection("user").document(user.getUid())
                                             .delete()
                                             .addOnSuccessListener(aVoid -> {
-                                                users.remove(user);
+                                                userList.remove(user);
                                                 adapter.notifyDataSetChanged();
                                                 Toast.makeText(ManageUserActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
                                             });
@@ -141,7 +141,7 @@ public class ManageUserActivity extends AppCompatActivity {
 
     private void loadUsers() {
         firestore.collection("user").get().addOnSuccessListener(query -> {
-            users.clear();
+            userList.clear();
             AtomicInteger loadedCount = new AtomicInteger(0);
             int totalDocs = query.size();
 
@@ -161,7 +161,7 @@ public class ManageUserActivity extends AppCompatActivity {
                     String picture = profileDoc.getString("picture");
                     if (picture == null || picture.isEmpty()) picture = null;
 
-                    users.add(new User(userId, fullname, email, role, status, picture));
+                    userList.add(new User(userId, fullname, email, role, status, picture));
 
                     if (loadedCount.incrementAndGet() == totalDocs) {
                         adapter.notifyDataSetChanged();

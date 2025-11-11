@@ -149,7 +149,9 @@ public class ManageStudentActivity extends AppCompatActivity {
 
             @Override
             public void onViewDetail(Student student) {
-
+                Intent intent = new Intent(ManageStudentActivity.this, StudentDetailActivity.class);
+                intent.putExtra("student_id", student.getStudent_id());
+                startActivity(intent);
             }
         });
         recycler_view.setAdapter(adapter);

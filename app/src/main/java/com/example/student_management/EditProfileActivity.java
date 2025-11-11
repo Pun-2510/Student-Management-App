@@ -104,7 +104,7 @@ public class EditProfileActivity extends AppCompatActivity {
         // 🔹 Chỉ định đúng bucket thủ công (vì google-services.json sai domain)
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference()
-                .child("users")
+                .child("user")
                 .child(uid)
                 .child("profile")
                 .child("picture.jpg");
@@ -119,7 +119,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     storageRef.getDownloadUrl()
                             .addOnSuccessListener(uri -> {
                                 FirebaseFirestore.getInstance()
-                                        .collection("users")
+                                        .collection("user")
                                         .document(uid)
                                         .collection("profile")
                                         .document("info")
@@ -146,7 +146,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void loadProfilePicture(String uid, ImageView ivProfile) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("users")
+        firestore.collection("user")
                 .document(uid)
                 .collection("profile")
                 .document("info")

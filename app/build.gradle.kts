@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
+    implementation("com.google.firebase:firebase-database:21.0.0")
     implementation(libs.recyclerview)
     implementation(libs.firebase.storage)
     testImplementation(libs.junit)

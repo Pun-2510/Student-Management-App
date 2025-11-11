@@ -24,6 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentManagement">
         <activity
+            android:name=".EditCertificateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StudentDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditStudentActivity"
             android:exported="false" />
         <activity
